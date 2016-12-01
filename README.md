@@ -1,4 +1,4 @@
-**Important:** do not rely on the API until the stable version 1.0 is released is it is still subject to change!
+**Important:** do not rely on the API until the stable version 1.0 is released as it is still subject to change!
 
 [![Build Status](https://travis-ci.org/zitmen/thunderstorm-algorithms.svg?branch=master)](https://travis-ci.org/zitmen/thunderstorm-algorithms)
 [![](https://jitpack.io/v/zitmen/thunderstorm-algorithms.svg)](https://jitpack.io/#zitmen/thunderstorm-algorithms)

@@ -9,7 +9,7 @@ import kotlin.test.assertTrue
 internal class GrayScaleImageTests {
 
     @Test
-    public fun rotateLeftTest() {
+    public fun testRotateLeft() {
         val image = GrayScaleImage(arrayOf(
                 arrayOf(1.0, 2.0, 3.0),
                 arrayOf(4.0, 5.0, 6.0)))
@@ -25,7 +25,7 @@ internal class GrayScaleImageTests {
     }
 
     @Test
-    public fun rotateRightTest() {
+    public fun testRotateRight() {
         val image = GrayScaleImage(arrayOf(
                 arrayOf(1.0, 2.0, 3.0),
                 arrayOf(4.0, 5.0, 6.0)))
@@ -41,7 +41,7 @@ internal class GrayScaleImageTests {
     }
 
     @Test
-    public fun convolve2DSymmetricTest() {
+    public fun testConvolve2DSymmetric() {
         val image = GrayScaleImage(arrayOf(
                 arrayOf(1.0, 2.0, 3.0),
                 arrayOf(4.0, 5.0, 6.0),
@@ -60,7 +60,7 @@ internal class GrayScaleImageTests {
     }
 
     @Test
-    public fun convolve2DAsymmetricTest() {
+    public fun testConvolve2DAsymmetric() {
         val image = GrayScaleImage(arrayOf(
                 arrayOf(1.0, 2.0, 3.0),
                 arrayOf(4.0, 5.0, 6.0),
@@ -79,7 +79,7 @@ internal class GrayScaleImageTests {
     }
 
     @Test
-    public fun dilate() {
+    public fun testDilate() {
         assertTrue(false)   // TODO
     }
 }

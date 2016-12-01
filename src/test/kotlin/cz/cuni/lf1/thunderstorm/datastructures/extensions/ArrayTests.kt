@@ -7,7 +7,7 @@ import org.junit.Test
 internal class ArrayTests {
 
     @Test
-    public fun create2DDoubleArrayTest() {
+    public fun testCreate2DDoubleArray() {
         val expected = arrayOf(
                 arrayOf(5.0, 5.0),
                 arrayOf(5.0, 5.0),
@@ -19,7 +19,7 @@ internal class ArrayTests {
     }
 
     @Test
-    public fun copyDataToPositionTopLeftTest() {
+    public fun testCopyDataToPositionTopLeft() {
         val image = GrayScaleImage(create2DDoubleArray(2, 2, 5.0))
 
         val expected = arrayOf(
@@ -34,7 +34,7 @@ internal class ArrayTests {
     }
 
     @Test
-    public fun copyDataToPositionBottomRightTest() {
+    public fun testCopyDataToPositionBottomRight() {
         val image = GrayScaleImage(create2DDoubleArray(2, 2, 5.0))
 
         val expected = arrayOf(
@@ -49,7 +49,7 @@ internal class ArrayTests {
     }
 
     @Test
-    public fun fillRectangleTest() {
+    public fun testFillRectangle() {
         val expected = arrayOf(
                 arrayOf(0.0, 0.0, 0.0),
                 arrayOf(0.0, 3.0, 0.0),

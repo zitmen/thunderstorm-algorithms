@@ -1,8 +1,12 @@
 package cz.cuni.lf1.thunderstorm.datastructures.extensions
 
-import cz.cuni.lf1.thunderstorm.algorithms.Padding
+import cz.cuni.lf1.thunderstorm.algorithms.padding.Padding
 import cz.cuni.lf1.thunderstorm.algorithms.padding.ZeroPadding
 import cz.cuni.lf1.thunderstorm.datastructures.GrayScaleImage
+import cz.cuni.lf1.thunderstorm.datastructures.GrayScaleImageImpl
+
+internal fun createGrayScaleImage(data: Array<Array<Double>>)
+        = GrayScaleImageImpl(data)
 
 /**
  * Rotate the entire image 90 degrees counter-clockwise
@@ -14,7 +18,7 @@ internal fun GrayScaleImage.rotateLeft(): GrayScaleImage {
             pixels[y][x] = this.getValue(x, pixels.size - 1 - y)
         }
     }
-    return GrayScaleImage(pixels)
+    return createGrayScaleImage(pixels)
 }
 
 /**
@@ -27,7 +31,7 @@ internal fun GrayScaleImage.rotateRight(): GrayScaleImage {
             pixels[y][x] = this.getValue(pixels[y].size - 1 - x, y)
         }
     }
-    return GrayScaleImage(pixels)
+    return createGrayScaleImage(pixels)
 }
 
 /**
@@ -52,7 +56,7 @@ internal fun GrayScaleImage.convolve2D(kernel: GrayScaleImage, paddingTypeFactor
         }
     }
 
-    return GrayScaleImage(pixels)
+    return createGrayScaleImage(pixels)
 }
 
 /**
@@ -72,5 +76,5 @@ internal fun GrayScaleImage.dilate(kernel: GrayScaleImage): GrayScaleImage {
             }
         }
     }
-    return GrayScaleImage(pixels)
+    return createGrayScaleImage(pixels)
 }

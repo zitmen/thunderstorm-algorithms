@@ -1,7 +1,7 @@
 package cz.cuni.lf1.thunderstorm.algorithms.filters
 
-import cz.cuni.lf1.thunderstorm.algorithms.Filter
-import cz.cuni.lf1.thunderstorm.algorithms.Padding
+import cz.cuni.lf1.thunderstorm.algorithms.filters.Filter
+import cz.cuni.lf1.thunderstorm.algorithms.padding.Padding
 import cz.cuni.lf1.thunderstorm.datastructures.GrayScaleImage
 import cz.cuni.lf1.thunderstorm.datastructures.extensions.convolve2D
 import cz.cuni.lf1.thunderstorm.datastructures.extensions.rotateLeft

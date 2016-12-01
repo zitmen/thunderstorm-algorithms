@@ -1,9 +1,10 @@
 package cz.cuni.lf1.thunderstorm.algorithms.padding
 
-import cz.cuni.lf1.thunderstorm.algorithms.Padding
+import cz.cuni.lf1.thunderstorm.algorithms.padding.Padding
 import cz.cuni.lf1.thunderstorm.datastructures.GrayScaleImage
 import cz.cuni.lf1.thunderstorm.datastructures.extensions.copyDataToPosition
 import cz.cuni.lf1.thunderstorm.datastructures.extensions.create2DDoubleArray
+import cz.cuni.lf1.thunderstorm.datastructures.extensions.createGrayScaleImage
 import cz.cuni.lf1.thunderstorm.datastructures.extensions.fillRectangle
 
 public class DuplicatePadding(private val size: Int) : Padding {
@@ -48,6 +49,6 @@ public class DuplicatePadding(private val size: Int) : Padding {
             }
         }
 
-        return GrayScaleImage(pixels)
+        return createGrayScaleImage(pixels)
     }
 }

@@ -1,6 +1,5 @@
 package cz.cuni.lf1.thunderstorm.datastructures.extensions
 
-import cz.cuni.lf1.thunderstorm.datastructures.GrayScaleImage
 import cz.cuni.lf1.thunderstorm.test.assert2DDoubleArrayEquals
 import org.junit.Test
 
@@ -20,7 +19,7 @@ internal class ArrayTests {
 
     @Test
     public fun testCopyDataToPositionTopLeft() {
-        val image = GrayScaleImage(create2DDoubleArray(2, 2, 5.0))
+        val image = createGrayScaleImage(create2DDoubleArray(2, 2, 5.0))
 
         val expected = arrayOf(
                 arrayOf(5.0, 5.0, 0.0),
@@ -35,7 +34,7 @@ internal class ArrayTests {
 
     @Test
     public fun testCopyDataToPositionBottomRight() {
-        val image = GrayScaleImage(create2DDoubleArray(2, 2, 5.0))
+        val image = createGrayScaleImage(create2DDoubleArray(2, 2, 5.0))
 
         val expected = arrayOf(
                 arrayOf(0.0, 0.0, 0.0),

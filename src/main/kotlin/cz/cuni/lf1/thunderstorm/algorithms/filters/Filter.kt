@@ -1,4 +1,4 @@
-package cz.cuni.lf1.thunderstorm.algorithms
+package cz.cuni.lf1.thunderstorm.algorithms.filters
 
 import cz.cuni.lf1.thunderstorm.datastructures.GrayScaleImage
 

@@ -1,4 +1,4 @@
-package cz.cuni.lf1.thunderstorm.algorithms
+package cz.cuni.lf1.thunderstorm.algorithms.detectors
 
 import cz.cuni.lf1.thunderstorm.datastructures.GrayScaleImage
 import cz.cuni.lf1.thunderstorm.datastructures.Point2D

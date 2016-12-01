@@ -1,8 +1,9 @@
 package cz.cuni.lf1.thunderstorm.algorithms.padding
 
-import cz.cuni.lf1.thunderstorm.algorithms.Padding
+import cz.cuni.lf1.thunderstorm.algorithms.padding.Padding
 import cz.cuni.lf1.thunderstorm.datastructures.GrayScaleImage
 import cz.cuni.lf1.thunderstorm.datastructures.extensions.create2DDoubleArray
+import cz.cuni.lf1.thunderstorm.datastructures.extensions.createGrayScaleImage
 
 public class ZeroPadding(private val size: Int) : Padding {
 
@@ -22,6 +23,6 @@ public class ZeroPadding(private val size: Int) : Padding {
                 pixels[y + size][x + size] = image.getValue(y, x)
             }
         }
-        return GrayScaleImage(pixels)
+        return createGrayScaleImage(pixels)
     }
 }

@@ -1,0 +1,11 @@
+language: java
+jdk:
+  - oraclejdk8
+deploy:
+  provider: releases
+  prerelease: true
+  api_key: "$token"
+  file: "./target/thunderstorm-algorithms.jar"
+  skip_cleanup: true
+  on:
+    tags: true

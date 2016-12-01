@@ -80,6 +80,24 @@ internal class GrayScaleImageTests {
 
     @Test
     public fun testDilate() {
-        assertTrue(false)   // TODO
+        val image = GrayScaleImage(arrayOf(
+                arrayOf(9.0, 9.0, 7.0, 7.0, 6.0),
+                arrayOf(4.0, 6.0, 7.0, 5.0, 6.0),
+                arrayOf(1.0, 1.0, 1.0, 1.0, 1.0),
+                arrayOf(2.0, 3.0, 4.0, 3.0, 2.0),
+                arrayOf(2.0, 3.0, 3.0, 3.0, 2.0)))
+
+        val kernel = GrayScaleImage(create2DDoubleArray(3, 3, 1.0))
+
+        val expected = GrayScaleImage(arrayOf(
+                arrayOf(9.0, 9.0, 9.0, 7.0, 7.0),
+                arrayOf(9.0, 9.0, 9.0, 7.0, 7.0),
+                arrayOf(6.0, 7.0, 7.0, 7.0, 6.0),
+                arrayOf(3.0, 4.0, 4.0, 4.0, 3.0),
+                arrayOf(3.0, 4.0, 4.0, 4.0, 3.0)))
+
+        val result = image.dilate(kernel)
+
+        assertGrayScaleImageEquals(expected, result, 0.0)
     }
 }

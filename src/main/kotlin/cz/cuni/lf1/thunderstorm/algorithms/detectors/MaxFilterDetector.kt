@@ -14,8 +14,8 @@ public class MaxFilterDetector(
         val detections = arrayListOf<Point2D>()
         val dilatedImage = image.dilate(GrayScaleImage(create2DDoubleArray(2*radius + 1, 2*radius + 1, 1.0)))
 
-        for (x in radius..(image.getWidth() - radius - 1)) {
-            for (y in radius..(image.getHeight() - radius - 1)) {
+        for (y in radius..(image.getHeight() - radius - 1)) {
+            for (x in radius..(image.getWidth() - radius - 1)) {
                 if((image.getValue(y, x) == dilatedImage.getValue(y, x)) && (image.getValue(y, x) >= threshold)) {
                     detections.add(Point2D(x.toDouble(), y.toDouble()))
                 }

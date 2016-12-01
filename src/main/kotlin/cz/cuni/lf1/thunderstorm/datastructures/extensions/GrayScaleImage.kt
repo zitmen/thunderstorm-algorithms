@@ -63,11 +63,11 @@ internal fun GrayScaleImage.dilate(kernel: GrayScaleImage): GrayScaleImage {
     val yCenter = kernel.getHeight()/2
     val paddedImage = ZeroPadding(max(xCenter, yCenter)).pad(this)
     val pixels = create2DDoubleArray(this.getHeight(), this.getWidth(), 0.0)
-    for (x in xCenter..(xCenter + this.getWidth() - 1)) {
-        for (y in yCenter..(yCenter + this.getHeight() - 1)) {
-            for (i in 0..(kernel.getWidth() - 1)) {
-                for (j in 0..(kernel.getHeight() - 1)) {
-                    pixels[y - yCenter][x - xCenter] = max(pixels[y - yCenter][x - xCenter], kernel.getValue(i, j) * paddedImage.getValue(x + i - xCenter, y + j - yCenter))
+    for (y in yCenter..(yCenter + this.getHeight() - 1)) {
+        for (x in xCenter..(xCenter + this.getWidth() - 1)) {
+            for (j in 0..(kernel.getHeight() - 1)) {
+                for (i in 0..(kernel.getWidth() - 1)) {
+                    pixels[y - yCenter][x - xCenter] = max(pixels[y - yCenter][x - xCenter], kernel.getValue(j, i) * paddedImage.getValue(y + j - yCenter, x + i - xCenter))
                 }
             }
         }

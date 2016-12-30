@@ -1,6 +1,3 @@
-group 'cz.cuni.lf1.thunderstorm'
-version '1.0-SNAPSHOT'
-
 buildscript {
     ext.kotlin_version = '1.0.5-2'
 
@@ -13,7 +10,15 @@ buildscript {
     }
 }
 
+plugins {
+    id 'jacoco'
+    id 'com.github.kt3k.coveralls' version '2.6.3'
+}
+
 apply plugin: 'kotlin'
+
+group 'cz.cuni.lf1.thunderstorm'
+version '1.0-SNAPSHOT'
 
 sourceSets {
     main.kotlin.srcDirs += 'src/main/kotlin'
@@ -31,11 +36,6 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: "$kotlin_version"
     testCompile group: 'org.jetbrains.kotlin', name: 'kotlin-test-junit', version: "$kotlin_version"
-}
-
-plugins {
-    id 'jacoco'
-    id 'com.github.kt3k.coveralls' version '2.6.3'
 }
 
 jacocoTestReport {

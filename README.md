@@ -1,6 +1,7 @@
 **Important:** do not rely on the API until the stable version 1.0 is released as it is still subject to change!
 
 [![Build Status](https://travis-ci.org/zitmen/thunderstorm-algorithms.svg?branch=master)](https://travis-ci.org/zitmen/thunderstorm-algorithms)
+[![codecov](https://codecov.io/gh/zitmen/thunderstorm-algorithms/branch/master/graph/badge.svg)](https://codecov.io/gh/zitmen/thunderstorm-algorithms)
 [![](https://jitpack.io/v/zitmen/thunderstorm-algorithms.svg)](https://jitpack.io/#zitmen/thunderstorm-algorithms)
 
 This is a collection of image and data analysis algorithms used in [ThunderSTORM](http://zitmen.github.io/thunderstorm/). We provide the algorithms as a separate light-weight library for better reusability.

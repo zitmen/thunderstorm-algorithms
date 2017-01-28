@@ -1,7 +1,6 @@
 package cz.cuni.lf1.thunderstorm.datastructures.extensions
 
 import cz.cuni.lf1.thunderstorm.algorithms.padding.ZeroPadding
-import cz.cuni.lf1.thunderstorm.datastructures.GrayScaleImage
 import cz.cuni.lf1.thunderstorm.test.assertGrayScaleImageEquals
 import org.junit.Test
 

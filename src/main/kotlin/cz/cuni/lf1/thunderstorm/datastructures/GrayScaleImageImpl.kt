@@ -1,7 +1,5 @@
 package cz.cuni.lf1.thunderstorm.datastructures
 
-import cz.cuni.lf1.thunderstorm.datastructures.GrayScaleImage
-
 internal class GrayScaleImageImpl(private val data: Array<Array<Double>>) : GrayScaleImage {
 
     public override fun getWidth()

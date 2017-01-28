@@ -16,3 +16,15 @@ internal fun max(a: Int, b: Int)
 
 internal fun max(a: Double, b: Double)
         = FastMath.max(a, b)
+
+internal fun Double.sqr()
+        = this * this
+
+internal fun Int.pow(to: Int)
+        = FastMath.pow(this.toDouble(), to).toInt()
+
+internal fun Double.exp()
+        = FastMath.exp(this)
+
+internal fun gauss(x: Double, sigma: Double)
+        = (-0.5 * (x / sigma).sqr()).exp()

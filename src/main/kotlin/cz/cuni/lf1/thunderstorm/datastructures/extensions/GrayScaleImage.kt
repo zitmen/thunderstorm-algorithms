@@ -4,6 +4,7 @@ import cz.cuni.lf1.thunderstorm.algorithms.padding.Padding
 import cz.cuni.lf1.thunderstorm.algorithms.padding.ZeroPadding
 import cz.cuni.lf1.thunderstorm.datastructures.GrayScaleImage
 import cz.cuni.lf1.thunderstorm.datastructures.GrayScaleImageImpl
+import cz.cuni.lf1.thunderstorm.datastructures.Roi
 
 internal fun createGrayScaleImage(data: Array<Array<Double>>)
         = GrayScaleImageImpl(data)
@@ -77,4 +78,71 @@ internal fun GrayScaleImage.dilate(kernel: GrayScaleImage): GrayScaleImage {
         }
     }
     return createGrayScaleImage(pixels)
+}
+
+/**
+ * Subtract two images
+ */
+internal operator fun GrayScaleImage.minus(img: GrayScaleImage): GrayScaleImage {
+    if (getWidth() != img.getWidth() || getHeight() != img.getHeight()) {
+        throw IllegalArgumentException("Both images must be of the same size!")
+    }
+    return GrayScaleImageImpl(create2DDoubleArray(getHeight(), getWidth(), { r, c -> getValue(r, c) - img.getValue(r, c) }))
+}
+
+/**
+ * Add two images
+ */
+internal operator fun GrayScaleImage.plus(img: GrayScaleImage): GrayScaleImage {
+    if (getWidth() != img.getWidth() || getHeight() != img.getHeight()) {
+        throw IllegalArgumentException("Both images must be of the same size!")
+    }
+    return GrayScaleImageImpl(create2DDoubleArray(getHeight(), getWidth(), { r, c -> getValue(r, c) + img.getValue(r, c) }))
+}
+
+/**
+ * Crop an input image to a specified region of interest (ROI)
+ */
+internal fun GrayScaleImage.crop(roi: Roi): GrayScaleImage {
+    if (roi.left < 0 || roi.top < 0 || roi.left + roi.width > getWidth() || roi.top + roi.height > getHeight()) {
+        throw IllegalArgumentException("ROI doesn't fit within the image dimensions!")
+    }
+
+    val result = create2DDoubleArray(roi.height, roi.width, 0.0)
+    for ((j, y) in (roi.top..(roi.top + roi.height - 1)).withIndex()) {
+        for ((i, x) in (roi.left..(roi.left + roi.width - 1)).withIndex()) {
+            result[j][i] = getValue(y, x)
+        }
+    }
+    return GrayScaleImageImpl(result)
+}
+
+/**
+ * Apply a binary threshold to the image.
+ *
+ * Instead of implicitly setting the pixels in thresholded image to 0 and 1,
+ * the pixels with their values equal or greater than threshold are set
+ * to highValue. The rest is res to lowValue.
+ *
+ * @param threshold a threshold value
+ * @param lowValue value that the pixels with values lesser then threshold are set to
+ * @param highValue value that the pixels with values equal or greater then threshold are set to
+ */
+internal fun GrayScaleImage.binaryThreshold(threshold: Double, lowValue: Double, highValue: Double): GrayScaleImage
+        = GrayScaleImageImpl(
+            (0..(getWidth() - 1)).map { i -> (0..(getHeight() - 1))
+                .map { j -> if (getValue(i, j) >= threshold) highValue else lowValue }
+                .toTypedArray() }
+            .toTypedArray())
+
+internal fun GrayScaleImage.applyMask(mask: GrayScaleImage): GrayScaleImage {
+    if (getWidth() != mask.getWidth() || getHeight() != mask.getHeight()) {
+        throw IllegalArgumentException("A mask must have the same dimensions as the input image!")
+    }
+
+    return GrayScaleImageImpl(
+            (0..(getWidth() - 1)).map { i -> (0..(getHeight() - 1))
+                .map { j -> if (mask.getValue(i, j) == 0.0) 0.0 else getValue(i, j) }
+                .toTypedArray() }
+            .toTypedArray())
 }

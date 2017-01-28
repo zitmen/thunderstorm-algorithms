@@ -1,6 +1,7 @@
 package cz.cuni.lf1.thunderstorm.algorithms.filters
 
 import cz.cuni.lf1.thunderstorm.datastructures.extensions.createGrayScaleImage
+import cz.cuni.lf1.thunderstorm.algorithms.padding.DuplicatePadding
 import cz.cuni.lf1.thunderstorm.test.assertGrayScaleImageEquals
 import org.junit.Test
 
@@ -15,7 +16,7 @@ internal class BoxFilterTests {
                 arrayOf(43.6674, 77.0326, 81.3179, 82.0897, 55.1332),
                 arrayOf(27.8264, 54.5190, 66.6193, 50.0506, 26.8428)))
 
-        val result = BoxFilter(5).filter(image)
+        val result = BoxFilter(5, ::DuplicatePadding).filter(image)
 
         val expected = createGrayScaleImage(arrayOf(
                 arrayOf(46.0487, 47.6876, 46.4464, 45.2052, 43.3028),

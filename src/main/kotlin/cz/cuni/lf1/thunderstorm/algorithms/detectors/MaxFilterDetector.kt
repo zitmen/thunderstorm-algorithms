@@ -1,6 +1,5 @@
 package cz.cuni.lf1.thunderstorm.algorithms.detectors
 
-import cz.cuni.lf1.thunderstorm.algorithms.detectors.Detector
 import cz.cuni.lf1.thunderstorm.datastructures.GrayScaleImage
 import cz.cuni.lf1.thunderstorm.datastructures.Point2D
 import cz.cuni.lf1.thunderstorm.datastructures.extensions.create2DDoubleArray

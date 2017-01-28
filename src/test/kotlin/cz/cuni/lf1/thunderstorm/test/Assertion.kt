@@ -11,7 +11,8 @@ internal fun assertGrayScaleImageEquals(expected: GrayScaleImage, actual: GraySc
 
     for (y in 0..(expected.getHeight() - 1)) {
         for (x in 0..(expected.getWidth() - 1)) {
-            assertTrue((expected.getValue(y, x) - actual.getValue(y, x)).abs() <= delta, message)
+            val diff = (expected.getValue(y, x) - actual.getValue(y, x)).abs()
+            assertTrue(diff <= delta, "${message ?: ""} (row=$y, col=$x, diff=$diff)")
         }
     }
 }

@@ -1,6 +1,5 @@
 package cz.cuni.lf1.thunderstorm.algorithms.padding
 
-import cz.cuni.lf1.thunderstorm.algorithms.padding.Padding
 import cz.cuni.lf1.thunderstorm.datastructures.GrayScaleImage
 import cz.cuni.lf1.thunderstorm.datastructures.extensions.copyDataToPosition
 import cz.cuni.lf1.thunderstorm.datastructures.extensions.create2DDoubleArray

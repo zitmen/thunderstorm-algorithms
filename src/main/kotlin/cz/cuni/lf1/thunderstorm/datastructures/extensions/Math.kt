@@ -20,11 +20,35 @@ internal fun max(a: Double, b: Double)
 internal fun Double.sqr()
         = this * this
 
+internal fun Double.sqrt()
+        = FastMath.sqrt(this)
+
 internal fun Int.pow(to: Int)
         = FastMath.pow(this.toDouble(), to).toInt()
+
+internal fun Double.pow(to: Double)
+        = FastMath.pow(this, to)
 
 internal fun Double.exp()
         = FastMath.exp(this)
 
 internal fun gauss(x: Double, sigma: Double)
         = (-0.5 * (x / sigma).sqr()).exp()
+
+internal fun Double.and(x: Double)
+        = if ((this != 0.0) && (x != 0.0)) 1.0 else 0.0
+
+internal fun Double.or(x: Double)
+        = if ((this != 0.0) || (x != 0.0)) 1.0 else 0.0
+
+internal fun Double.eq(x: Double)
+        = if (this == x) 1.0 else 0.0
+
+internal fun Double.neq(x: Double)
+        = if (this != x) 1.0 else 0.0
+
+internal fun Double.lt(x: Double)
+        = if (this < x) 1.0 else 0.0
+
+internal fun Double.gt(x: Double)
+        = if (this > x) 1.0 else 0.0

@@ -37,3 +37,7 @@ internal fun assertListOfPointsEquals(expected: List<Point2D>, actual: List<Poin
         assertTrue((expected[i].getY() - actual[i].getY()).abs() <= delta, message)
     }
 }
+
+internal fun assertDoubleEquals(expected: Double, actual: Double, delta: Double, message: String? = null): Unit {
+    assertTrue((expected - actual).abs() <= delta, message)
+}

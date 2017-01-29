@@ -81,6 +81,22 @@ internal fun GrayScaleImage.dilate(kernel: GrayScaleImage): GrayScaleImage {
 }
 
 /**
+ * Add two images
+ */
+internal operator fun GrayScaleImage.plus(img: GrayScaleImage): GrayScaleImage {
+    if (getWidth() != img.getWidth() || getHeight() != img.getHeight()) {
+        throw IllegalArgumentException("Both images must be of the same size!")
+    }
+    return GrayScaleImageImpl(create2DDoubleArray(getHeight(), getWidth(), { r, c -> getValue(r, c) + img.getValue(r, c) }))
+}
+
+internal operator fun GrayScaleImage.plus(value: Double)
+        = GrayScaleImageImpl(create2DDoubleArray(getHeight(), getWidth(), { r, c -> getValue(r, c) + value }))
+
+internal operator fun Double.plus(img: GrayScaleImage)
+        = img + this
+
+/**
  * Subtract two images
  */
 internal operator fun GrayScaleImage.minus(img: GrayScaleImage): GrayScaleImage {
@@ -90,15 +106,155 @@ internal operator fun GrayScaleImage.minus(img: GrayScaleImage): GrayScaleImage 
     return GrayScaleImageImpl(create2DDoubleArray(getHeight(), getWidth(), { r, c -> getValue(r, c) - img.getValue(r, c) }))
 }
 
+internal operator fun GrayScaleImage.minus(value: Double)
+        = GrayScaleImageImpl(create2DDoubleArray(getHeight(), getWidth(), { r, c -> getValue(r, c) - value }))
+
+internal operator fun Double.minus(img: GrayScaleImage)
+        = GrayScaleImageImpl(create2DDoubleArray(img.getHeight(), img.getWidth(), { r, c -> this - img.getValue(r, c) }))
+
 /**
- * Add two images
+ * Multiply two images
  */
-internal operator fun GrayScaleImage.plus(img: GrayScaleImage): GrayScaleImage {
+internal operator fun GrayScaleImage.times(img: GrayScaleImage): GrayScaleImage {
     if (getWidth() != img.getWidth() || getHeight() != img.getHeight()) {
         throw IllegalArgumentException("Both images must be of the same size!")
     }
-    return GrayScaleImageImpl(create2DDoubleArray(getHeight(), getWidth(), { r, c -> getValue(r, c) + img.getValue(r, c) }))
+    return GrayScaleImageImpl(create2DDoubleArray(getHeight(), getWidth(), { r, c -> getValue(r, c) * img.getValue(r, c) }))
 }
+
+internal operator fun GrayScaleImage.times(value: Double)
+        = GrayScaleImageImpl(create2DDoubleArray(getHeight(), getWidth(), { r, c -> getValue(r, c) * value }))
+
+internal operator fun Double.times(img: GrayScaleImage)
+        = img * this
+
+/**
+ * Divide two images
+ */
+internal operator fun GrayScaleImage.div(img: GrayScaleImage): GrayScaleImage {
+    if (getWidth() != img.getWidth() || getHeight() != img.getHeight()) {
+        throw IllegalArgumentException("Both images must be of the same size!")
+    }
+    return GrayScaleImageImpl(create2DDoubleArray(getHeight(), getWidth(), { r, c -> getValue(r, c) / img.getValue(r, c) }))
+}
+
+internal operator fun GrayScaleImage.div(value: Double)
+        = GrayScaleImageImpl(create2DDoubleArray(getHeight(), getWidth(), { r, c -> getValue(r, c) / value }))
+
+internal operator fun Double.div(img: GrayScaleImage)
+        = GrayScaleImageImpl(create2DDoubleArray(img.getHeight(), img.getWidth(), { r, c -> this / img.getValue(r, c) }))
+
+/**
+ * Modulo two images
+ */
+internal operator fun GrayScaleImage.mod(img: GrayScaleImage): GrayScaleImage {
+    if (getWidth() != img.getWidth() || getHeight() != img.getHeight()) {
+        throw IllegalArgumentException("Both images must be of the same size!")
+    }
+    return GrayScaleImageImpl(create2DDoubleArray(getHeight(), getWidth(), { r, c -> getValue(r, c) % img.getValue(r, c) }))
+}
+
+internal operator fun GrayScaleImage.mod(value: Double)
+        = GrayScaleImageImpl(create2DDoubleArray(getHeight(), getWidth(), { r, c -> getValue(r, c) % value }))
+
+internal operator fun Double.mod(img: GrayScaleImage)
+        = GrayScaleImageImpl(create2DDoubleArray(img.getHeight(), img.getWidth(), { r, c -> this % img.getValue(r, c) }))
+
+/**
+ * Power an image
+ */
+internal fun GrayScaleImage.pow(to: Double)
+        = GrayScaleImageImpl(create2DDoubleArray(getHeight(), getWidth(), { r, c -> getValue(r, c).pow(to) }))
+
+/**
+ * Logical operators on images
+ */
+internal fun GrayScaleImage.and(arg: GrayScaleImage): GrayScaleImage {
+    if (getWidth() != arg.getWidth() || getHeight() != arg.getHeight()) {
+        throw IllegalArgumentException("Both images must be of the same size!")
+    }
+    return GrayScaleImageImpl(create2DDoubleArray(getHeight(), getWidth(), { r, c -> getValue(r, c).and(arg.getValue(r, c)) }))
+}
+
+internal fun GrayScaleImage.or(arg: GrayScaleImage): GrayScaleImage {
+    if (getWidth() != arg.getWidth() || getHeight() != arg.getHeight()) {
+        throw IllegalArgumentException("Both images must be of the same size!")
+    }
+    return GrayScaleImageImpl(create2DDoubleArray(getHeight(), getWidth(), { r, c -> getValue(r, c).or(arg.getValue(r, c)) }))
+}
+
+internal fun GrayScaleImage.eq(arg: GrayScaleImage): GrayScaleImage {
+    if (getWidth() != arg.getWidth() || getHeight() != arg.getHeight()) {
+        throw IllegalArgumentException("Both images must be of the same size!")
+    }
+    return GrayScaleImageImpl(create2DDoubleArray(getHeight(), getWidth(), { r, c -> getValue(r, c).eq(arg.getValue(r, c)) }))
+}
+
+internal fun GrayScaleImage.eq(arg: Double)
+        = GrayScaleImageImpl(create2DDoubleArray(getHeight(), getWidth(), { r, c -> getValue(r, c).eq(arg) }))
+
+internal fun Double.eq(arg: GrayScaleImage)
+        = arg.eq(this)
+
+internal fun GrayScaleImage.neq(arg: GrayScaleImage): GrayScaleImage {
+    if (getWidth() != arg.getWidth() || getHeight() != arg.getHeight()) {
+        throw IllegalArgumentException("Both images must be of the same size!")
+    }
+    return GrayScaleImageImpl(create2DDoubleArray(getHeight(), getWidth(), { r, c -> getValue(r, c).neq(arg.getValue(r, c)) }))
+}
+
+internal fun GrayScaleImage.neq(arg: Double)
+        = GrayScaleImageImpl(create2DDoubleArray(getHeight(), getWidth(), { r, c -> getValue(r, c).neq(arg) }))
+
+internal fun Double.neq(arg: GrayScaleImage)
+        = arg.neq(this)
+
+internal fun GrayScaleImage.lt(arg: GrayScaleImage): GrayScaleImage {
+    if (getWidth() != arg.getWidth() || getHeight() != arg.getHeight()) {
+        throw IllegalArgumentException("Both images must be of the same size!")
+    }
+    return GrayScaleImageImpl(create2DDoubleArray(getHeight(), getWidth(), { r, c -> getValue(r, c).lt(arg.getValue(r, c)) }))
+}
+
+internal fun GrayScaleImage.lt(arg: Double)
+        = GrayScaleImageImpl(create2DDoubleArray(getHeight(), getWidth(), { r, c -> getValue(r, c).lt(arg) }))
+
+internal fun Double.lt(arg: GrayScaleImage)
+        = GrayScaleImageImpl(create2DDoubleArray(arg.getHeight(), arg.getWidth(), { r, c -> this.lt(arg.getValue(r, c)) }))
+
+internal fun GrayScaleImage.gt(arg: GrayScaleImage): GrayScaleImage {
+    if (getWidth() != arg.getWidth() || getHeight() != arg.getHeight()) {
+        throw IllegalArgumentException("Both images must be of the same size!")
+    }
+    return GrayScaleImageImpl(create2DDoubleArray(getHeight(), getWidth(), { r, c -> getValue(r, c).gt(arg.getValue(r, c)) }))
+}
+
+internal fun GrayScaleImage.gt(arg: Double)
+        = GrayScaleImageImpl(create2DDoubleArray(getHeight(), getWidth(), { r, c -> getValue(r, c).gt(arg) }))
+
+internal fun Double.gt(arg: GrayScaleImage)
+        = GrayScaleImageImpl(create2DDoubleArray(arg.getHeight(), arg.getWidth(), { r, c -> this.gt(arg.getValue(r, c)) }))
+
+internal fun GrayScaleImage.min()
+        = (0..(getHeight() - 1)).flatMap { r -> (0..(getWidth() - 1)).map { c -> getValue(r, c) } }.min()!!
+
+internal fun GrayScaleImage.max()
+        = (0..(getHeight() - 1)).flatMap { r -> (0..(getWidth() - 1)).map { c -> getValue(r, c) } }.max()!!
+
+internal fun GrayScaleImage.sum()
+        = (0..(getHeight() - 1)).flatMap { r -> (0..(getWidth() - 1)).map { c -> getValue(r, c) } }.sum()
+
+internal fun GrayScaleImage.variance()
+        = (0..(getHeight() - 1)).flatMap { r -> (0..(getWidth() - 1)).map { c -> getValue(r, c) } }.toTypedArray().variance()
+
+internal fun GrayScaleImage.mean()
+        = (0..(getHeight() - 1)).flatMap { r -> (0..(getWidth() - 1)).map { c -> getValue(r, c) } }.toTypedArray().mean()
+
+internal fun GrayScaleImage.median()
+        = (0..(getHeight() - 1)).flatMap { r -> (0..(getWidth() - 1)).map { c -> getValue(r, c) } }.toTypedArray().median()
+
+internal fun GrayScaleImage.abs()
+        = (0..(getHeight() - 1)).flatMap { r -> (0..(getWidth() - 1)).map { c -> getValue(r, c) } }.toTypedArray().abs()
 
 /**
  * Crop an input image to a specified region of interest (ROI)

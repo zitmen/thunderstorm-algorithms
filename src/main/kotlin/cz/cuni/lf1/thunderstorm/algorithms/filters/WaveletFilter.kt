@@ -6,7 +6,7 @@ import cz.cuni.lf1.thunderstorm.datastructures.GrayScaleImage
 import cz.cuni.lf1.thunderstorm.datastructures.GrayScaleImageImpl
 import cz.cuni.lf1.thunderstorm.datastructures.extensions.pow
 
-internal class WaveletFilter(private val plane: Int, private val splineOrder: Int, private val splineScale: Double,
+public class WaveletFilter(private val plane: Int, private val splineOrder: Int, private val splineScale: Double,
                              private val nSamples: Int, paddingTypeFactory: (Int) -> Padding) : Filter {
 
     public val kernelSize = (2.pow(plane - 1) * (nSamples - 1)) + 1

@@ -7,11 +7,9 @@ import cz.cuni.lf1.thunderstorm.datastructures.extensions.createGrayScaleImage
 import cz.cuni.lf1.thunderstorm.datastructures.extensions.createPoint2D
 import cz.cuni.lf1.thunderstorm.datastructures.extensions.dilate
 
-public class MaxFilterDetector(
-        private val radius: Int,
-        private val threshold: Double) : Detector {
+public class MaxFilterDetector(private val radius: Int) : Detector {
 
-    public override fun detect(image: GrayScaleImage): List<Point2D> {
+    public override fun detect(image: GrayScaleImage, threshold: Double): List<Point2D> {
         val detections = arrayListOf<Point2D>()
         val dilatedImage = image.dilate(createGrayScaleImage(create2DDoubleArray(2*radius + 1, 2*radius + 1, 1.0)))
 

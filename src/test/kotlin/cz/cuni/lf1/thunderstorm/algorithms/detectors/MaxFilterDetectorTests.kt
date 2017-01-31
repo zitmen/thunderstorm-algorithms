@@ -19,7 +19,7 @@ internal class MaxFilterDetectorTests {
 
         val expected = listOf(createPoint2D(2.0, 3.0))
 
-        val result = MaxFilterDetector(1, 3.0).detect(image)
+        val result = MaxFilterDetector(1).detect(image, 3.0)
 
         assertListOfPointsEquals(expected, result, 0.0)
     }
@@ -35,7 +35,7 @@ internal class MaxFilterDetectorTests {
 
         val expected = emptyList<Point2D>()
 
-        val result = MaxFilterDetector(1, 5.0).detect(image)
+        val result = MaxFilterDetector(1).detect(image, 5.0)
 
         assertListOfPointsEquals(expected, result, 0.0)
     }
@@ -51,7 +51,7 @@ internal class MaxFilterDetectorTests {
 
         val expected = listOf(createPoint2D(2.0, 3.0), createPoint2D(3.0, 3.0))
 
-        val result = MaxFilterDetector(1, 3.0).detect(image)
+        val result = MaxFilterDetector(1).detect(image, 3.0)
 
         assertListOfPointsEquals(expected, result, 0.0)
     }

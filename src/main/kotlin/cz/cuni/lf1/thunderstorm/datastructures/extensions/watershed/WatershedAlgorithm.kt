@@ -33,7 +33,7 @@ object WatershedAlgorithm {
         //
 
         //val typeP = GrayScaleImageImpl(create2DDoubleArray(img.getHeight(), img.getWidth(), 0.0))     //will be a notepad for pixel types
-        val typeP = ByteProcessor(img.getWidth(), img.getHeight())
+        var typeP = ByteProcessor(img.getWidth(), img.getHeight())
         var globalMin = Double.MAX_VALUE
         var globalMax = Double.MIN_VALUE
         for (y in 0..img.getHeight() - 1) {         //find local minimum/maximum now
@@ -49,9 +49,9 @@ object WatershedAlgorithm {
 
         /* maximum height difference between points that are not counted as separate maxima */
         val tolerance = 10.0
-        //WatershedFunctions.analyzeAndMarkMaxima(img.toFloatProcessor(), typeP.toByteProcessor(), maxPoints, tolerance, maxSortingError)
-        maxFinder.analyzeAndMarkMaxima(img.toFloatProcessor(), typeP, maxPoints.toLongArray(),
-                false, false, globalMin.toFloat(), tolerance, MaximumFinder.SEGMENTED, maxSortingError.toFloat())
+        typeP = WatershedFunctions.analyzeAndMarkMaxima(img.toFloatProcessor(), typeP.toGrayScaleImage(), maxPoints, tolerance, maxSortingError).toByteProcessor()
+        //maxFinder.analyzeAndMarkMaxima(img.toFloatProcessor(), typeP, maxPoints.toLongArray(),
+        //        false, false, globalMin.toFloat(), tolerance, MaximumFinder.SEGMENTED, maxSortingError.toFloat())
 
         // Segmentation required, convert to 8bit (also for 8-bit images, since the calibration
         // may have a negative slope). outIp has background 0, maximum areas 255

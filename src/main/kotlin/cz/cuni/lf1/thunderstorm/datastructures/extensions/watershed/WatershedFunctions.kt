@@ -510,12 +510,12 @@ object WatershedFunctions {
      * *                       not deviating from each other by more than this (this could be a result of
      * *                       precision loss when sorting ints instead of floats, or because sorting does not
      */
-    public fun analyzeAndMarkMaxima(ip: ImageProcessor, typeP: ByteProcessor, maxPoints: Array<Long>,
-                                     tolerance: Double, maxSortingError: Double) {
+    public fun analyzeAndMarkMaxima(ip: ImageProcessor, typeP: GrayScaleImage, maxPoints: Array<Long>,
+                                     tolerance: Double, maxSortingError: Double): GrayScaleImage {
 
         val dirOffset = intArrayOf(-ip.width, -ip.width + 1, +1, +ip.width + 1, +ip.width, +ip.width - 1, -1, -ip.width - 1)
 
-        val types = typeP.pixels as ByteArray
+        val types = create2DDoubleArray(typeP.getHeight(), typeP.getWidth(), { r, c -> typeP.getValue(r, c) })
         val nMax = maxPoints.size
         val pList = IntArray(ip.width * ip.height)       //here we enter points starting from a maximum
         val xyVector: ArrayList<IntArray>? = null
@@ -525,17 +525,18 @@ object WatershedFunctions {
         for (iMax in nMax - 1 downTo 0) {    //process all maxima now, starting from the highest
             var offset0 = maxPoints[iMax].toInt()     //type cast gets 32 lower bits, where pixel index is encoded
             //int offset0 = maxPoints[iMax].offset;
-            if (types[offset0].toInt() and PROCESSED != 0)
+            var x0 = offset0 % ip.width
+            var y0 = offset0 / ip.width
+
+            if (types[offset0/ip.width][offset0%ip.width].toInt() and PROCESSED != 0)
             //this maximum has been reached from another one, skip it
                 continue
             //we create a list of connected points and start the list at the current maximum
-            var x0 = offset0 % ip.width
-            var y0 = offset0 / ip.width
             var v0 = ip.getPixelValue(x0, y0)
             var sortingError: Boolean
             do {                                    //repeat if we have encountered a sortingError
                 pList[0] = offset0
-                types[offset0] = (types[offset0].toInt() or (EQUAL or LISTED)).toByte()   //mark first point as equal height (to itself) and listed
+                types[offset0/ip.width][offset0%ip.width] = (types[offset0/ip.width][offset0%ip.width].toInt() or (EQUAL or LISTED)).toDouble()   //mark first point as equal height (to itself) and listed
                 var listLen = 1                    //number of elements in the list
                 var listI = 0                      //index of current element in the list
                 sortingError = false       //if sorting was inaccurate: a higher maximum was not handled so far
@@ -550,8 +551,8 @@ object WatershedFunctions {
                     val isInner = y != 0 && y != ip.height - 1 && x != 0 && x != ip.width - 1 //not necessary, but faster than isWithin
                     for (d in 0..7) {       //analyze all neighbors (in 8 directions) at the same level
                         val offset2 = offset + dirOffset[d]
-                        if ((isInner || isWithin(x, y, d, ip.width, ip.height)) && types[offset2].toInt() and LISTED == 0) {
-                            if (types[offset2].toInt() and PROCESSED != 0) {
+                        if ((isInner || isWithin(x, y, d, ip.width, ip.height)) && types[offset2/ip.width][offset2%ip.width].toInt() and LISTED == 0) {
+                            if (types[offset2/ip.width][offset2%ip.width].toInt() and PROCESSED != 0) {
                                 maxPossible = false //we have reached a point processed previously, thus it is no maximum now
                                 break
                             }
@@ -572,9 +573,9 @@ object WatershedFunctions {
                                 }
                                 pList[listLen] = offset2
                                 listLen++              //we have found a new point within the tolerance
-                                types[offset2] = (types[offset2].toInt() or LISTED).toByte()
+                                types[offset2/ip.width][offset2%ip.width] = (types[offset2/ip.width][offset2%ip.width].toInt() or LISTED).toDouble()
                                 if (v2 == v0) {           //prepare finding center of equal points (in case single point needed)
-                                    types[offset2] = (types[offset2].toInt() or EQUAL).toByte()
+                                    types[offset2/ip.width][offset2%ip.width] = (types[offset2/ip.width][offset2%ip.width].toInt() or EQUAL).toDouble()
                                     xEqual += x2.toDouble()
                                     yEqual += y2.toDouble()
                                     nEqual++
@@ -588,7 +589,7 @@ object WatershedFunctions {
                 if (sortingError) {                  //if x0,y0 was not the true maximum but we have reached a higher one
                     listI = 0
                     while (listI < listLen) {
-                        types[pList[listI]] = 0
+                        types[pList[listI]/ip.width][pList[listI]%ip.width] = 0.0
                         listI++
                     }    //reset all points encountered, then retry
                 } else {
@@ -602,11 +603,11 @@ object WatershedFunctions {
                         val offset = pList[listI]
                         val x = offset % ip.width
                         val y = offset / ip.width
-                        types[offset] = (types[offset].toInt() and resetMask).toByte()        //reset attributes no longer needed
-                        types[offset] = (types[offset].toInt() or PROCESSED).toByte()        //mark as processed
+                        types[offset/ip.width][offset%ip.width] = (types[offset/ip.width][offset%ip.width].toInt() and resetMask).toDouble()        //reset attributes no longer needed
+                        types[offset/ip.width][offset%ip.width] = (types[offset/ip.width][offset%ip.width].toInt() or PROCESSED).toDouble()        //mark as processed
                         if (maxPossible) {
-                            types[offset] = (types[offset].toInt() or MAX_AREA).toByte()
-                            if (types[offset].toInt() and EQUAL != 0) {
+                            types[offset/ip.width][offset%ip.width] = (types[offset/ip.width][offset%ip.width].toInt() or MAX_AREA).toDouble()
+                            if (types[offset/ip.width][offset%ip.width].toInt() and EQUAL != 0) {
                                 val dist2 = (xEqual - x) * (xEqual - x) + (yEqual - y) * (yEqual - y)
                                 if (dist2 < minDist2) {
                                     minDist2 = dist2    //this could be the best "single maximum" point
@@ -618,7 +619,7 @@ object WatershedFunctions {
                     } // for listI
                     if (maxPossible) {
                         val offset = pList[nearestI]
-                        types[offset] = (types[offset].toInt() or MAX_POINT).toByte()
+                        types[offset/ip.width][offset%ip.width] = (types[offset/ip.width][offset%ip.width].toInt() or MAX_POINT).toDouble()
                         if (displayOrCount) {
                             val x = offset % ip.width
                             val y = offset / ip.width
@@ -629,6 +630,7 @@ object WatershedFunctions {
                 } //if !sortingError
             } while (sortingError)                //redo if we have encountered a higher maximum: handle it now.
         } // for all maxima iMax
+        return GrayScaleImageImpl(types)
     } //void analyzeAndMarkMaxima
 }
 

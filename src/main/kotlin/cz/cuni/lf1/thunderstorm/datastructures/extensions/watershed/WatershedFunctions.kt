@@ -1,5 +1,6 @@
 package cz.cuni.lf1.thunderstorm.datastructures.extensions.watershed
 
+import cz.cuni.lf1.thunderstorm.algorithms.detectors.ImageJ_MaximumFinder
 import cz.cuni.lf1.thunderstorm.datastructures.GrayScaleImage
 import cz.cuni.lf1.thunderstorm.datastructures.GrayScaleImageImpl
 import cz.cuni.lf1.thunderstorm.datastructures.Point2D
@@ -43,12 +44,13 @@ object WatershedFunctions {
     /**
      * After watershed, set all pixels in the background and segmentation lines to 0
      */
-    public fun watershedPostProcess(ip: ImageProcessor) {
+    public fun watershedPostProcess(ip: ByteProcessor): ByteProcessor {
         val pixels = ip.pixels as ByteArray
         val size = ip.width * ip.height
         (0..size - 1)
                 .filter { pixels[it].toInt() and 255 < 255 }
                 .forEach { pixels[it] = 0.toByte() }
+        return ip
     }
 
     /** delete a line starting at x, y up to the next (4-connected) vertex  */
@@ -315,7 +317,7 @@ object WatershedFunctions {
      * *
      * @return    false if canceled by the user (note: can be cancelled only if called by "run" with a known ImagePlus)
      */
-    public fun watershedSegment(ip: ByteProcessor) {
+    public fun watershedSegment(ip: ByteProcessor): ByteProcessor {
 
         val width = ip.width
 
@@ -428,6 +430,7 @@ object WatershedFunctions {
                 }
             }
         }
+        return ip
     } // boolean watershedSegment
 
     /** eliminate unmarked maxima for use by watershed. Starting from each previous maximum,
@@ -440,7 +443,7 @@ object WatershedFunctions {
      * *
      * @param maxPoints array containing the coordinates of all maxima that might be relevant
      */
-    public fun cleanupMaxima(outIp: ByteProcessor, typeP: ByteProcessor, maxPoints: Array<Long>, width: Int, height: Int) {
+    public fun cleanupMaxima(outIp: ByteProcessor, typeP: ByteProcessor, maxPoints: Array<Long>, width: Int, height: Int): ByteProcessor {
 
         val dirOffset = intArrayOf(-width, -width + 1, +1, +width + 1, +width, +width - 1, -1, -width - 1)
 
@@ -499,6 +502,7 @@ object WatershedFunctions {
                 listI++
             }
         } // for all maxima iMax
+        return outIp
     } // void cleanupMaxima
 
     /** Check all maxima in list maxPoints, mark type of the points in typeP
@@ -517,7 +521,6 @@ object WatershedFunctions {
     public fun analyzeAndMarkMaxima(ip: ImageProcessor, typeP: GrayScaleImage, maxPoints: Array<Long>,
                                      tolerance: Double, maxSortingError: Double): GrayScaleImage {
 
-        val dirOffset = intArrayOf(-ip.width, -ip.width + 1, +1, +ip.width + 1, +ip.width, +ip.width - 1, -1, -ip.width - 1)
         val dirOffsetPt = arrayOf(Point2DImpl(0.0, -1.0), Point2DImpl(1.0, -1.0), Point2DImpl(1.0, 0.0), Point2DImpl(1.0, 1.0), Point2DImpl(0.0, 1.0), Point2DImpl(-1.0, 1.0), Point2DImpl(-1.0, 0.0), Point2DImpl(-1.0, -1.0))
 
         val types = create2DDoubleArray(typeP.getHeight(), typeP.getWidth(), { r, c -> typeP.getValue(r, c) })
@@ -642,11 +645,11 @@ object WatershedFunctions {
  * @param ip 8-bit image with background = 0, lines between 1 and 254 and segmented particles = 255
  */
 public fun GrayScaleImage.cleanupExtraLines(): GrayScaleImage {
-    val pixels = create2DDoubleArray(getHeight(), getWidth(), 0.0)
+    val pixels = create2DDoubleArray(getHeight(), getWidth(), { r, c -> getValue(r, c) })
     for (y in 0..(getHeight() - 1)) {
         for (x in 0..(getWidth() - 1)) {
-            val v = pixels[y][x].toInt()
-            if (v != 255.toByte().toInt() && v != 0) {
+            val v = pixels[y][x]
+            if (v != 255.0 && v != 0.0) {
                 val nRadii = nRadii(pixels, x, y, getWidth(), getHeight())     //number of lines radiating
                 if (nRadii == 0) //single point or foreground patch?
                     pixels[y][x] = 255.0

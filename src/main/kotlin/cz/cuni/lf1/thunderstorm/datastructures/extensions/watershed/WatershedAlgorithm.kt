@@ -27,13 +27,7 @@ import ij.process.ImageProcessor
 object WatershedAlgorithm {
 
     fun findMaxima(img: GrayScaleImage): GrayScaleImage {
-        //
-        val maxFinder = ImageJ_MaximumFinder()
-        maxFinder.findMaxima(img.toFloatProcessor(), 0.0, ImageProcessor.NO_THRESHOLD, MaximumFinder.SEGMENTED, false, false)
-        //
-
-        //val typeP = GrayScaleImageImpl(create2DDoubleArray(img.getHeight(), img.getWidth(), 0.0))     //will be a notepad for pixel types
-        var typeP = ByteProcessor(img.getWidth(), img.getHeight())
+        var typeP = GrayScaleImageImpl(create2DDoubleArray(img.getHeight(), img.getWidth(), 0.0))     //will be a notepad for pixel types
         var globalMin = Double.MAX_VALUE
         var globalMax = Double.MIN_VALUE
         for (y in 0..img.getHeight() - 1) {         //find local minimum/maximum now
@@ -44,29 +38,21 @@ object WatershedAlgorithm {
             }
         }
 
-        val maxPoints = WatershedFunctions.getSortedMaxPoints(img, WatershedFunctions.findLocalMaxima(img, typeP.toGrayScaleImage(), globalMin), globalMin, globalMax)
+        val maxPoints = WatershedFunctions.getSortedMaxPoints(img, WatershedFunctions.findLocalMaxima(img, typeP, globalMin), globalMin, globalMax)
         val maxSortingError = 1.1f * (globalMax - globalMin) / 2e9f //sorted sequence may be inaccurate by this value
 
         /* maximum height difference between points that are not counted as separate maxima */
         val tolerance = 10.0
-        typeP = WatershedFunctions.analyzeAndMarkMaxima(img.toFloatProcessor(), typeP.toGrayScaleImage(), maxPoints, tolerance, maxSortingError).toByteProcessor()
-        //maxFinder.analyzeAndMarkMaxima(img.toFloatProcessor(), typeP, maxPoints.toLongArray(),
-        //        false, false, globalMin.toFloat(), tolerance, MaximumFinder.SEGMENTED, maxSortingError.toFloat())
+        typeP = WatershedFunctions.analyzeAndMarkMaxima(img.toFloatProcessor(), typeP, maxPoints, tolerance, maxSortingError) as GrayScaleImageImpl
 
         // Segmentation required, convert to 8bit (also for 8-bit images, since the calibration
         // may have a negative slope). outIp has background 0, maximum areas 255
-        //val outIp1 = WatershedFunctions.make8bit(img, typeP, globalMin, globalMax)
-        val outIp = maxFinder.make8bit(img.toFloatProcessor(), typeP, false, globalMin.toFloat(), globalMax.toFloat(), ImageProcessor.NO_THRESHOLD)
-        //WatershedFunctions.cleanupMaxima(outIp, typeP, maxPoints, img.getWidth(), img.getHeight())     //eliminate all the small maxima (i.e. those outside MAX_AREA)
-        maxFinder.cleanupMaxima(outIp, typeP, maxPoints.toLongArray())     //eliminate all the small maxima (i.e. those outside MAX_AREA)
-        //WatershedFunctions.watershedSegment(outIp)
-        maxFinder.watershedSegment(outIp)
-        //val outIp2 = outIp.cleanupExtraLines()       //eliminate lines due to local minima (none in EDM)
-        maxFinder.cleanupExtraLines(outIp)       //eliminate lines due to local minima (none in EDM)
-        //WatershedFunctions.watershedPostProcess(outIp2)                //levels to binary image
-        maxFinder.watershedPostProcess(outIp)                //levels to binary image
+        var outIp = WatershedFunctions.make8bit(img, typeP, globalMin, globalMax).toByteProcessor()
+        outIp = WatershedFunctions.cleanupMaxima(outIp, typeP.toByteProcessor(), maxPoints, img.getWidth(), img.getHeight())     //eliminate all the small maxima (i.e. those outside MAX_AREA)
+        outIp = WatershedFunctions.watershedSegment(outIp)
+        outIp = outIp.toGrayScaleImage().cleanupExtraLines().toByteProcessor()       //eliminate lines due to local minima (none in EDM)
+        outIp = WatershedFunctions.watershedPostProcess(outIp)                //levels to binary image
 
-        //return outIp2
         return outIp.toGrayScaleImage()
     }
 }

@@ -772,7 +772,7 @@ public class ImageJ_MaximumFinder implements ExtendedPlugInFilter, DialogListene
     } // void cleanupExtraLines
 
     /** delete a line starting at x, y up to the next (4-connected) vertex */
-    void removeLineFrom (byte[] pixels, int x, int y) {
+    public void removeLineFrom (byte[] pixels, int x, int y) {
         //IJ.log("del line from "+x+","+y);
         //if(x<50&&y<40)IJ.write("x,y start="+x+","+y);
         pixels[x + width*y] = (byte)255;                        //delete the first point
@@ -808,7 +808,7 @@ public class ImageJ_MaximumFinder implements ExtendedPlugInFilter, DialogListene
      * @return  Number of 4-connected lines emanating from this point. Zero if the point is
      *          embedded in either foreground or background
      */
-    int nRadii (byte[] pixels, int x, int y) {
+    public int nRadii (byte[] pixels, int x, int y) {
         int offset = x + y*width;
         int countTransitions = 0;
         boolean prevPixelSet = true;

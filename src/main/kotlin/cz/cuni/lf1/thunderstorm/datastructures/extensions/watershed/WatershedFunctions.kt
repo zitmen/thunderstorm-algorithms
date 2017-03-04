@@ -1,6 +1,5 @@
 package cz.cuni.lf1.thunderstorm.datastructures.extensions.watershed
 
-import cz.cuni.lf1.thunderstorm.algorithms.detectors.ImageJ_MaximumFinder
 import cz.cuni.lf1.thunderstorm.datastructures.GrayScaleImage
 import cz.cuni.lf1.thunderstorm.datastructures.GrayScaleImageImpl
 import cz.cuni.lf1.thunderstorm.datastructures.Point2D
@@ -8,7 +7,6 @@ import cz.cuni.lf1.thunderstorm.datastructures.Point2DImpl
 import cz.cuni.lf1.thunderstorm.datastructures.extensions.create2DDoubleArray
 import cz.cuni.lf1.thunderstorm.datastructures.extensions.createPoint2D
 import cz.cuni.lf1.thunderstorm.datastructures.extensions.plus
-import ij.gui.Roi
 import ij.process.ByteProcessor
 import ij.process.ImageProcessor
 import java.util.*
@@ -525,7 +523,6 @@ object WatershedFunctions {
 
         val types = create2DDoubleArray(typeP.getHeight(), typeP.getWidth(), { r, c -> typeP.getValue(r, c) })
         val xyVector: ArrayList<IntArray>? = null
-        val roi: Roi? = null
         val displayOrCount = false
 
         for (iMax in maxPoints.size - 1 downTo 0) {    //process all maxima now, starting from the highest
@@ -628,8 +625,7 @@ object WatershedFunctions {
                         if (displayOrCount) {
                             val x = offset.getX().toInt()
                             val y = offset.getY().toInt()
-                            if (roi == null || roi.contains(x, y))
-                                xyVector!!.add(intArrayOf(x, y))
+                            xyVector!!.add(intArrayOf(x, y))
                         }
                     }
                 } //if !sortingError

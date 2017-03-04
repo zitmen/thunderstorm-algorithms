@@ -159,13 +159,14 @@ object WatershedFunctions {
         {   //enter all maxima into an array
             for (x in 0..(ip.getWidth()-1)) {
                 if (typeP.getValue(y, x).toInt() == MAXIMUM) {
-                    val iValue = ((ip.getValue(y, x) - globalMin) * vFactor).toInt() //32-bit int, linear function of float value
+                    val iValue = ((ip.getValue(y, x) - globalMin).toFloat() * vFactor).toInt() //32-bit int, linear function of float value
                     val p = x + y * ip.getWidth()
                     maxPoints.add(iValue.toLong() shl 32 or p.toLong())
                 }
             }
         }
-        return maxPoints.sorted().toTypedArray()
+        maxPoints.sort()
+        return maxPoints.toTypedArray()
     } //getSortedMaxPoints
 
     /** Creates the lookup table used by the watershed function for dilating the particles.

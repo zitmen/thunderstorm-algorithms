@@ -44,9 +44,10 @@ object WatershedAlgorithm {
             }
         }
 
-        //val maxPoints1 = WatershedFunctions.getSortedMaxPoints(img, WatershedFunctions.findLocalMaxima(img, typeP, globalMin), globalMin, globalMax)
-        val maxPoints = maxFinder.getSortedMaxPoints(img.toFloatProcessor(), typeP, false, false, globalMin.toFloat(), globalMax.toFloat(), ImageProcessor.NO_THRESHOLD).toTypedArray()
-        val maxSortingError = 1.1 * (globalMax - globalMin) / 2e9 //sorted sequence may be inaccurate by this value
+        val typeP1 = typeP.toGrayScaleImage()
+        val typeP2 = WatershedFunctions.findLocalMaxima(img, typeP1, globalMin)
+        val maxPoints = WatershedFunctions.getSortedMaxPoints(img, typeP2, globalMin, globalMax)
+        val maxSortingError = 1.1f * (globalMax - globalMin) / 2e9f //sorted sequence may be inaccurate by this value
 
         /* maximum height difference between points that are not counted as separate maxima */
         val tolerance = 10.0

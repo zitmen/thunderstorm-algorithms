@@ -16,7 +16,6 @@ public class MedianFilter(private val pattern: MedianFilterPattern, private val 
         = when (pattern) {
             MedianFilterPattern.BOX -> filterBox(image)
             MedianFilterPattern.CROSS -> filterCross(image)
-            else -> throw IllegalArgumentException("Median filter supports only box and cross patterns!")
         }
 
     private fun filterBox(image: GrayScaleImage): GrayScaleImage {

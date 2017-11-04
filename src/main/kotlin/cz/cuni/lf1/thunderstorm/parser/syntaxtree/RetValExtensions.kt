@@ -79,7 +79,7 @@ internal operator fun RetVal.div(b: RetVal): RetVal {
     throw FormulaParserException("Operation is not supported!")
 }
 
-internal operator fun RetVal.mod(b: RetVal): RetVal {
+internal operator fun RetVal.rem(b: RetVal): RetVal {
     if (isValue()) {
         if (b.isValue()) return RetVal(getValue() % b.getValue())
         if (b.isVector()) return RetVal(getValue() % b.getVector())

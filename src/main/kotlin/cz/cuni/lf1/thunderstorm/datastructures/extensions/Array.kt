@@ -76,13 +76,13 @@ internal operator fun Array<Double>.div(by: Array<Double>): Array<Double> {
     return (0..size).map { this[it] / by[it] }.toTypedArray()
 }
 
-internal operator fun Array<Double>.mod(by: Double)
+internal operator fun Array<Double>.rem(by: Double)
         = this.map { it % by }.toTypedArray()
 
-internal operator fun Double.mod(by: Array<Double>)
+internal operator fun Double.rem(by: Array<Double>)
         = by.map { this % it }.toTypedArray()
 
-internal operator fun Array<Double>.mod(by: Array<Double>): Array<Double> {
+internal operator fun Array<Double>.rem(by: Array<Double>): Array<Double> {
     if (size != by.size) {
         throw IllegalArgumentException("Both arrays must be of the same size!")
     }

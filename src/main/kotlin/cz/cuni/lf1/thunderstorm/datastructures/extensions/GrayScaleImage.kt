@@ -147,17 +147,17 @@ internal operator fun Double.div(img: GrayScaleImage)
 /**
  * Modulo two images
  */
-internal operator fun GrayScaleImage.mod(img: GrayScaleImage): GrayScaleImage {
+internal operator fun GrayScaleImage.rem(img: GrayScaleImage): GrayScaleImage {
     if (getWidth() != img.getWidth() || getHeight() != img.getHeight()) {
         throw IllegalArgumentException("Both images must be of the same size!")
     }
     return GrayScaleImageImpl(create2DDoubleArray(getHeight(), getWidth(), { r, c -> getValue(r, c) % img.getValue(r, c) }))
 }
 
-internal operator fun GrayScaleImage.mod(value: Double)
+internal operator fun GrayScaleImage.rem(value: Double)
         = GrayScaleImageImpl(create2DDoubleArray(getHeight(), getWidth(), { r, c -> getValue(r, c) % value }))
 
-internal operator fun Double.mod(img: GrayScaleImage)
+internal operator fun Double.rem(img: GrayScaleImage)
         = GrayScaleImageImpl(create2DDoubleArray(img.getHeight(), img.getWidth(), { r, c -> this % img.getValue(r, c) }))
 
 /**

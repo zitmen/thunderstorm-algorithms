@@ -10,7 +10,7 @@ internal class BinaryOperator(private val operator: Operator, private val leftOp
             Operator.SUB -> leftOperand.eval(variables).minus(rightOperand.eval(variables))
             Operator.MUL -> leftOperand.eval(variables).times(rightOperand.eval(variables))
             Operator.DIV -> leftOperand.eval(variables).div  (rightOperand.eval(variables))
-            Operator.MOD -> leftOperand.eval(variables).mod  (rightOperand.eval(variables))
+            Operator.MOD -> leftOperand.eval(variables).rem(rightOperand.eval(variables))
             Operator.POW -> leftOperand.eval(variables).pow  (rightOperand.eval(variables))
             Operator.AND -> leftOperand.eval(variables).and  (rightOperand.eval(variables))
             Operator.OR  -> leftOperand.eval(variables).or   (rightOperand.eval(variables))
@@ -18,7 +18,6 @@ internal class BinaryOperator(private val operator: Operator, private val leftOp
             Operator.GT  -> leftOperand.eval(variables).gt   (rightOperand.eval(variables))
             Operator.EQ  -> leftOperand.eval(variables).eq   (rightOperand.eval(variables))
             Operator.NEQ -> leftOperand.eval(variables).neq  (rightOperand.eval(variables))
-            else -> throw UnsupportedOperationException("Unknown operator! Only supported operators are: + - * / ^ & | < > = !=")
         }
     }
 

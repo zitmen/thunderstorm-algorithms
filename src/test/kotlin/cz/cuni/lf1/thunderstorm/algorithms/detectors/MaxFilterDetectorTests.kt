@@ -3,6 +3,7 @@ package cz.cuni.lf1.thunderstorm.algorithms.detectors
 import cz.cuni.lf1.thunderstorm.datastructures.Point2D
 import cz.cuni.lf1.thunderstorm.datastructures.extensions.createGrayScaleImage
 import cz.cuni.lf1.thunderstorm.datastructures.extensions.createPoint2D
+import cz.cuni.lf1.thunderstorm.parser.thresholding.FormulaThreshold
 import cz.cuni.lf1.thunderstorm.test.assertListOfPointsEquals
 import org.junit.Test
 
@@ -19,7 +20,7 @@ internal class MaxFilterDetectorTests {
 
         val expected = listOf(createPoint2D(2.0, 3.0))
 
-        val result = MaxFilterDetector(1).detect(image, 3.0)
+        val result = MaxFilterDetector(1, FormulaThreshold("3.0")).detect(image)
 
         assertListOfPointsEquals(expected, result, 0.0)
     }
@@ -35,7 +36,7 @@ internal class MaxFilterDetectorTests {
 
         val expected = emptyList<Point2D>()
 
-        val result = MaxFilterDetector(1).detect(image, 5.0)
+        val result = MaxFilterDetector(1, FormulaThreshold("5.0")).detect(image)
 
         assertListOfPointsEquals(expected, result, 0.0)
     }
@@ -51,7 +52,7 @@ internal class MaxFilterDetectorTests {
 
         val expected = listOf(createPoint2D(2.0, 3.0), createPoint2D(3.0, 3.0))
 
-        val result = MaxFilterDetector(1).detect(image, 3.0)
+        val result = MaxFilterDetector(1, FormulaThreshold("3.0")).detect(image)
 
         assertListOfPointsEquals(expected, result, 0.0)
     }

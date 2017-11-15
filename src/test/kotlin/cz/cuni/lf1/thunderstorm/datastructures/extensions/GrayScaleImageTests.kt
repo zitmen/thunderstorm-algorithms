@@ -2,9 +2,28 @@ package cz.cuni.lf1.thunderstorm.datastructures.extensions
 
 import cz.cuni.lf1.thunderstorm.algorithms.padding.ZeroPadding
 import cz.cuni.lf1.thunderstorm.test.assertGrayScaleImageEquals
+import org.junit.Ignore
 import org.junit.Test
 
 internal class GrayScaleImageTests {
+
+    @Ignore // TODO
+    @Test
+    public fun testExtractSubimage() {
+        val image = createGrayScaleImage(arrayOf(
+                arrayOf(1.0, 2.0, 3.0),
+                arrayOf(4.0, 5.0, 6.0)))
+
+        val expected = createGrayScaleImage(arrayOf(
+                arrayOf(3.0, 6.0),
+                arrayOf(2.0, 5.0),
+                arrayOf(1.0, 4.0)))
+
+        val result = image.rotateLeft()
+
+        assert(false)
+        assertGrayScaleImageEquals(expected, result, 0.0)
+    }
 
     @Test
     public fun testRotateLeft() {

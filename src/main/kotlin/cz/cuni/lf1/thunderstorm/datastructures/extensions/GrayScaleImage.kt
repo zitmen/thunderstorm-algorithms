@@ -10,6 +10,14 @@ internal fun createGrayScaleImage(data: Array<Array<Double>>)
         = GrayScaleImageImpl(data)
 
 /**
+ * Extract a sub-image, e.g., a fitting region
+ */
+internal fun GrayScaleImage.extractSubImage(top: Int, left: Int, height: Int, width: Int)
+        = createGrayScaleImage(create2DDoubleArray(height, width, { r, c ->
+            this.getValue(top + r, left + c)
+        }))
+
+/**
  * Rotate the entire image 90 degrees counter-clockwise
  */
 internal fun GrayScaleImage.rotateLeft(): GrayScaleImage {

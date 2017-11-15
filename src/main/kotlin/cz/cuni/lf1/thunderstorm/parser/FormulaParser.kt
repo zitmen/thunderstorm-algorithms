@@ -220,7 +220,7 @@ internal class FormulaParser(formula: String) {
         when (peek()) {
             FormulaToken.DOT -> {
                 match(FormulaToken.DOT)
-                return Variable("$tok.${match(FormulaToken.NAME)}")    // object.variable
+                return Variable(namespace = tok, varName = match(FormulaToken.NAME))
             }
             FormulaToken.LPAR -> {
                 match(FormulaToken.LPAR)
@@ -229,7 +229,7 @@ internal class FormulaParser(formula: String) {
                 return Function(tok, arg) // function call
             }
             else -> {
-                return Variable(tok)   // just a variable (no object)
+                return Variable(varName = tok)   // just a variable (no object)
             }
         }
     }

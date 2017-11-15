@@ -5,18 +5,28 @@ import cz.cuni.lf1.thunderstorm.datastructures.GrayScaleImageImpl
 import cz.cuni.lf1.thunderstorm.datastructures.extensions.create2DDoubleArray
 import cz.cuni.lf1.thunderstorm.datastructures.extensions.median
 
-public enum class MedianFilterPattern {
-    CROSS,
-    BOX
-}
+public class MedianFilter(private val pattern: Pattern, private val size: Int) : FilterWithVariables {
 
-public class MedianFilter(private val pattern: MedianFilterPattern, private val size: Int) : Filter {
+    public enum class Pattern {
+        CROSS,
+        BOX
+    }
 
-    override fun filter(image: GrayScaleImage)
-        = when (pattern) {
-            MedianFilterPattern.BOX -> filterBox(image)
-            MedianFilterPattern.CROSS -> filterCross(image)
+    public override val variables = mapOf(
+            "I" to emptyFilterVariable(),
+            "F" to emptyFilterVariable())
+
+    override fun filter(image: GrayScaleImage): GrayScaleImage {
+        val f = when (pattern) {
+            Pattern.BOX -> filterBox(image)
+            Pattern.CROSS -> filterCross(image)
         }
+
+        variables["I"]!!.setRefresher { image }
+        variables["F"]!!.setRefresher { f }
+
+        return f
+    }
 
     private fun filterBox(image: GrayScaleImage): GrayScaleImage {
         val result = create2DDoubleArray(image.getHeight(), image.getWidth(), 0.0)

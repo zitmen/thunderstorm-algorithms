@@ -8,7 +8,7 @@ internal class MedianFilterTests {
 
     @Test
     public fun testCrossFilter() {
-        val result = MedianFilter(MedianFilterPattern.CROSS, 3).filter(image)
+        val result = MedianFilter(MedianFilter.Pattern.CROSS, 3).filter(image)
 
         val expected = createGrayScaleImage(arrayOf(
                 arrayOf(3.0, 3.0, 3.0, 3.0, 3.0),
@@ -22,7 +22,7 @@ internal class MedianFilterTests {
 
     @Test
     public fun testBoxFilter() {
-        val result = MedianFilter(MedianFilterPattern.BOX, 3).filter(image)
+        val result = MedianFilter(MedianFilter.Pattern.BOX, 3).filter(image)
 
         val expected = createGrayScaleImage(arrayOf(
                 arrayOf(4.0, 4.0, 4.5, 4.0, 4.0),

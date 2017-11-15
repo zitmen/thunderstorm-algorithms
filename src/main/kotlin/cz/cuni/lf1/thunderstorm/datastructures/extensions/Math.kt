@@ -5,6 +5,12 @@ import org.apache.commons.math3.util.FastMath
 internal fun Double.abs()
         = FastMath.abs(this)
 
+internal fun Double.round()
+        = FastMath.round(this)
+
+internal fun Double.roundRem()
+        = this - FastMath.round(this).toDouble()
+
 internal fun Double.ceil()
         = FastMath.ceil(this)
 

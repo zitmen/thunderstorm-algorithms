@@ -1,18 +1,9 @@
 package cz.cuni.lf1.thunderstorm.parser.syntaxtree
 
-import cz.cuni.lf1.thunderstorm.parser.FormulaParserException
+import cz.cuni.lf1.thunderstorm.parser.SymbolTable
 
-internal class Variable(private val varName: String) : Node {
+internal class Variable(private val varName: String, private val namespace: String? = null) : Node {
 
-    @Throws(FormulaParserException::class)
-    public override fun semanticScan(variables: Set<String>) {
-        if (varName !in variables) {
-            throw FormulaParserException("Variable '$varName' does not exist!");
-        }
-    }
-
-    public override fun eval(variables: Map<String, () -> RetVal>): RetVal {
-        return variables[varName]?.invoke()
-            ?: throw FormulaParserException("Variable '$varName' can't be evaluated!");
-    }
+    public override fun eval(symbols: SymbolTable)
+        = symbols.getVariableValue(varName, namespace)
 }

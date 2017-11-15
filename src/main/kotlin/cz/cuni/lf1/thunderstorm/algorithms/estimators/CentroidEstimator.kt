@@ -3,26 +3,36 @@ package cz.cuni.lf1.thunderstorm.algorithms.estimators
 import cz.cuni.lf1.thunderstorm.datastructures.Distance
 import cz.cuni.lf1.thunderstorm.datastructures.GrayScaleImage
 import cz.cuni.lf1.thunderstorm.datastructures.Molecule
+import cz.cuni.lf1.thunderstorm.datastructures.extensions.floor
 
-public class CentroidEstimator(fittingRadius: Int) : Estimator {
+public class CentroidEstimator(private val fittingRadius: Int) : Estimator {
 
     private val fittingGrid = FittingGrid(fittingRadius)
 
-    override fun estimatePosition(image: GrayScaleImage, initialEstimate: Molecule): Molecule {
-        var xPos = initialEstimate.xPos.getValue()
-        var yPos = initialEstimate.yPos.getValue()
+    override fun estimatePosition(image: GrayScaleImage, initialEstimate: Molecule): Molecule? {
+        val xCenter = initialEstimate.xPos.getValue().floor().toInt()
+        val yCenter = initialEstimate.yPos.getValue().floor().toInt()
+
+        if (xCenter - fittingRadius < 0 || xCenter + fittingRadius >= image.getWidth() ||
+                yCenter - fittingRadius < 0 || yCenter + fittingRadius >= image.getHeight()) {
+            return null
+        }
+
+        var xPos = 0.0
+        var yPos = 0.0
+
         var sum = 0.0
-        for (r in 0..(image.getHeight() - 1)) {
-            for (c in 0..(image.getWidth() - 1)) {
-                val value = image.getValue(r, c)
+        for (r in ((yCenter - fittingRadius)..(yCenter + fittingRadius)).withIndex()) {
+            for (c in ((xCenter - fittingRadius)..(xCenter + fittingRadius)).withIndex()) {
+                val value = image.getValue(r.value, c.value)
                 sum += value
-                xPos += value * fittingGrid.getX(r, c)
-                yPos += value * fittingGrid.getY(r, c)
+                xPos += value * fittingGrid.getX(r.index, c.index)
+                yPos += value * fittingGrid.getY(r.index, c.index)
             }
         }
         xPos /= sum
         yPos /= sum
 
-        return Molecule(Distance.fromPixels(xPos), Distance.fromPixels(yPos))
+        return Molecule(Distance.fromPixels(xCenter + 0.5 + xPos), Distance.fromPixels(yCenter + 0.5 + yPos))
     }
 }

@@ -16,7 +16,7 @@ public class ZeroPadding(private val size: Int) : Padding {
             = size
 
     public override fun pad(image: GrayScaleImage): GrayScaleImage {
-        val pixels = create2DDoubleArray(image.getWidth() + 2*size, image.getHeight() + 2*size, 0.0)
+        val pixels = create2DDoubleArray(image.getHeight() + 2*size, image.getWidth() + 2*size, 0.0)
         for (y in 0..(image.getHeight() - 1)) {
             for (x in 0..(image.getWidth() - 1)) {
                 pixels[y + size][x + size] = image.getValue(y, x)

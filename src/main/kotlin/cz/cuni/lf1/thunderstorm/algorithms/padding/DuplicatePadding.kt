@@ -41,8 +41,8 @@ public class DuplicatePadding(private val size: Int) : Padding {
         }
 
         // vertical borders
-        for(x in 0..(size - 1)) {
-            for(y in 0..(height - 1)) {
+        for(y in 0..(height - 1)) {
+            for(x in 0..(size - 1)) {
                 pixels[y + size][x] = image.getValue(y, 0)
                 pixels[y + size][newWidth - 1 - x] = image.getValue(y, width - 1)
             }

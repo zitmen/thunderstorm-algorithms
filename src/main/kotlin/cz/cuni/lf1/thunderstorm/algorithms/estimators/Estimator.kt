@@ -5,5 +5,5 @@ import cz.cuni.lf1.thunderstorm.datastructures.Molecule
 
 public interface Estimator {
 
-    public fun estimatePosition(image: GrayScaleImage, initialEstimate: Molecule): Molecule
+    public fun estimatePosition(image: GrayScaleImage, initialEstimate: Molecule): Molecule?
 }

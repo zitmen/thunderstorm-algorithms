@@ -10,7 +10,8 @@ internal class ConvolutionFilter private constructor(
         private val kernel: GrayScaleImage?,
         private val kernelX: GrayScaleImage?,
         private val kernelY: GrayScaleImage?,
-        private val paddingTypeFactory: (padSize: Int) -> Padding) : Filter {
+        private val paddingTypeFactory: (padSize: Int) -> Padding)
+    : Filter {
 
     public override fun filter(image: GrayScaleImage): GrayScaleImage {
         if (kernel != null) {

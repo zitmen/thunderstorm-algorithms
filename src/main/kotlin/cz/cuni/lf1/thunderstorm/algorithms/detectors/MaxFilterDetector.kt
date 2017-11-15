@@ -20,7 +20,7 @@ public class MaxFilterDetector(
         for (y in radius..(image.getHeight() - radius - 1)) {
             for (x in radius..(image.getWidth() - radius - 1)) {
                 if((image.getValue(y, x) == dilatedImage.getValue(y, x)) && (image.getValue(y, x) >= threshold)) {
-                    detections.add(createPoint2D(x.toDouble(), y.toDouble()))
+                    detections.add(createPoint2D(0.5 + x.toDouble(), 0.5 + y.toDouble()))
                 }
             }
         }

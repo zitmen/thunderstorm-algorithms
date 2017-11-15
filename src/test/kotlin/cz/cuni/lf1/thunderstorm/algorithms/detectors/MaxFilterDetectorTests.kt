@@ -18,7 +18,7 @@ internal class MaxFilterDetectorTests {
                 arrayOf(2.0, 3.0, 4.0, 0.0, 1.0),
                 arrayOf(2.0, 3.0, 3.0, 1.0, 2.0)))
 
-        val expected = listOf(createPoint2D(2.0, 3.0))
+        val expected = listOf(createPoint2D(2.5, 3.5))
 
         val result = MaxFilterDetector(1, FormulaThreshold("3.0")).detect(image)
 
@@ -50,7 +50,7 @@ internal class MaxFilterDetectorTests {
                 arrayOf(2.0, 3.0, 4.0, 4.0, 1.0),
                 arrayOf(2.0, 3.0, 3.0, 1.0, 2.0)))
 
-        val expected = listOf(createPoint2D(2.0, 3.0), createPoint2D(3.0, 3.0))
+        val expected = listOf(createPoint2D(2.5, 3.5), createPoint2D(3.5, 3.5))
 
         val result = MaxFilterDetector(1, FormulaThreshold("3.0")).detect(image)
 

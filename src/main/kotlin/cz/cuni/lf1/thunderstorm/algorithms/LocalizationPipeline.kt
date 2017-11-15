@@ -10,11 +10,9 @@ import cz.cuni.lf1.thunderstorm.datastructures.Molecule
 public object LocalizationPipeline {
 
     public fun runLocalization(rawImage: GrayScaleImage, filter: Filter, detector: Detector, estimator: Estimator): List<Molecule>
-        = detector.detect(filter.filter(rawImage))
-                .map {
-                    estimator.estimatePosition(
-                            rawImage,
-                            Molecule(Distance.fromPixels(it.getX()),
-                                    Distance.fromPixels(it.getY())))
-                }
+        = detector.detect(filter.filter(rawImage)).mapNotNull {
+            estimator.estimatePosition(rawImage,
+                    Molecule(Distance.fromPixels(it.getX()),
+                            Distance.fromPixels(it.getY())))
+    }
 }

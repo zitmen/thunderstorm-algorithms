@@ -10,7 +10,7 @@ internal fun create2DDoubleArray(rows: Int, columns: Int, initFun: (row: Int, co
 
 internal fun Array<Array<Double>>.copyDataToPosition(data: GrayScaleImage, row: Int, column: Int) {
     for ((dataY, y) in (row..min(row + data.getHeight() - 1, this.size - 1)).withIndex()) {
-        for ((dataX, x) in (column..min(column + data.getHeight() - 1, this[y].size - 1)).withIndex()) {
+        for ((dataX, x) in (column..min(column + data.getWidth() - 1, this[y].size - 1)).withIndex()) {
             this[y][x] = data.getValue(dataY, dataX)
         }
     }

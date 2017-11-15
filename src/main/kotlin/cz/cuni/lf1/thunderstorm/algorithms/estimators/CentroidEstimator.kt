@@ -1,8 +1,8 @@
 package cz.cuni.lf1.thunderstorm.algorithms.estimators
 
-import cz.cuni.lf1.thunderstorm.datastructures.Distance
 import cz.cuni.lf1.thunderstorm.datastructures.GrayScaleImage
 import cz.cuni.lf1.thunderstorm.datastructures.Molecule
+import cz.cuni.lf1.thunderstorm.datastructures.extensions.createMoleculeDetection
 import cz.cuni.lf1.thunderstorm.datastructures.extensions.floor
 
 public class CentroidEstimator(private val fittingRadius: Int) : Estimator {
@@ -33,6 +33,6 @@ public class CentroidEstimator(private val fittingRadius: Int) : Estimator {
         xPos /= sum
         yPos /= sum
 
-        return Molecule(Distance.fromPixels(xCenter + 0.5 + xPos), Distance.fromPixels(yCenter + 0.5 + yPos))
+        return createMoleculeDetection(xCenter + 0.5 + xPos, yCenter + 0.5 + yPos)
     }
 }

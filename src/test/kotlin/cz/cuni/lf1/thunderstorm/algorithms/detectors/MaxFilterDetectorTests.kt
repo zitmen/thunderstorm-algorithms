@@ -1,10 +1,10 @@
 package cz.cuni.lf1.thunderstorm.algorithms.detectors
 
-import cz.cuni.lf1.thunderstorm.datastructures.Point2D
+import cz.cuni.lf1.thunderstorm.datastructures.Molecule
 import cz.cuni.lf1.thunderstorm.datastructures.extensions.createGrayScaleImage
-import cz.cuni.lf1.thunderstorm.datastructures.extensions.createPoint2D
+import cz.cuni.lf1.thunderstorm.datastructures.extensions.createMoleculeDetection
 import cz.cuni.lf1.thunderstorm.parser.thresholding.FormulaThreshold
-import cz.cuni.lf1.thunderstorm.test.assertListOfPointsEquals
+import cz.cuni.lf1.thunderstorm.test.assertListOfMoleculesEquals
 import org.junit.Test
 
 internal class MaxFilterDetectorTests {
@@ -18,11 +18,11 @@ internal class MaxFilterDetectorTests {
                 arrayOf(2.0, 3.0, 4.0, 0.0, 1.0),
                 arrayOf(2.0, 3.0, 3.0, 1.0, 2.0)))
 
-        val expected = listOf(createPoint2D(2.5, 3.5))
+        val expected = listOf(createMoleculeDetection(2.5, 3.5))
 
         val result = MaxFilterDetector(1, FormulaThreshold("3.0")).detect(image)
 
-        assertListOfPointsEquals(expected, result, 0.0)
+        assertListOfMoleculesEquals(expected, result, 0.0)
     }
 
     @Test
@@ -34,11 +34,11 @@ internal class MaxFilterDetectorTests {
                 arrayOf(2.0, 3.0, 4.0, 0.0, 1.0),
                 arrayOf(2.0, 3.0, 3.0, 1.0, 2.0)))
 
-        val expected = emptyList<Point2D>()
+        val expected = emptyList<Molecule>()
 
         val result = MaxFilterDetector(1, FormulaThreshold("5.0")).detect(image)
 
-        assertListOfPointsEquals(expected, result, 0.0)
+        assertListOfMoleculesEquals(expected, result, 0.0)
     }
 
     @Test
@@ -50,10 +50,10 @@ internal class MaxFilterDetectorTests {
                 arrayOf(2.0, 3.0, 4.0, 4.0, 1.0),
                 arrayOf(2.0, 3.0, 3.0, 1.0, 2.0)))
 
-        val expected = listOf(createPoint2D(2.5, 3.5), createPoint2D(3.5, 3.5))
+        val expected = listOf(createMoleculeDetection(2.5, 3.5), createMoleculeDetection(3.5, 3.5))
 
         val result = MaxFilterDetector(1, FormulaThreshold("3.0")).detect(image)
 
-        assertListOfPointsEquals(expected, result, 0.0)
+        assertListOfMoleculesEquals(expected, result, 0.0)
     }
 }

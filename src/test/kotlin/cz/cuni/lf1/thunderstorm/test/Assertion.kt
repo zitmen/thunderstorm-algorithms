@@ -1,11 +1,11 @@
 package cz.cuni.lf1.thunderstorm.test
 
-import cz.cuni.lf1.thunderstorm.datastructures.GrayScaleImage
-import cz.cuni.lf1.thunderstorm.datastructures.Point2D
+import cz.cuni.lf1.thunderstorm.datastructures.*
 import cz.cuni.lf1.thunderstorm.datastructures.extensions.abs
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-internal fun assertGrayScaleImageEquals(expected: GrayScaleImage, actual: GrayScaleImage, delta: Double, message: String? = null): Unit {
+internal fun assertGrayScaleImageEquals(expected: GrayScaleImage, actual: GrayScaleImage, delta: Double, message: String? = null) {
     assertTrue(expected.getHeight() == actual.getHeight(), message)
     assertTrue(expected.getWidth() == actual.getWidth(), message)
 
@@ -17,7 +17,7 @@ internal fun assertGrayScaleImageEquals(expected: GrayScaleImage, actual: GraySc
     }
 }
 
-internal fun assert2DDoubleArrayEquals(expected: Array<Array<Double>>, actual: Array<Array<Double>>, delta: Double, message: String? = null): Unit {
+internal fun assert2DDoubleArrayEquals(expected: Array<Array<Double>>, actual: Array<Array<Double>>, delta: Double, message: String? = null) {
     assertTrue(expected.size == actual.size, message)
 
     for (y in 0..(expected.size - 1)) {
@@ -29,15 +29,28 @@ internal fun assert2DDoubleArrayEquals(expected: Array<Array<Double>>, actual: A
     }
 }
 
-internal fun assertListOfPointsEquals(expected: List<Point2D>, actual: List<Point2D>, delta: Double, message: String? = null): Unit {
+internal fun assertListOfMoleculesEquals(expected: List<Molecule>, actual: List<Molecule>, delta: Double, message: String? = null) {
     assertTrue(expected.size == actual.size, message)
-
-    for (i in 0..(expected.size - 1)) {
-        assertTrue((expected[i].getX() - actual[i].getX()).abs() <= delta, message)
-        assertTrue((expected[i].getY() - actual[i].getY()).abs() <= delta, message)
+    (0..(expected.size - 1)).forEach {
+        assertMolecule(expected[it], actual[it], delta, message)
     }
 }
 
-internal fun assertDoubleEquals(expected: Double, actual: Double, delta: Double, message: String? = null): Unit {
+internal fun assertMolecule(expected: Molecule, actual: Molecule, delta: Double, message: String? = null) {
+    assertPhysicalQuantityEquals(expected.xPos, actual.xPos, delta, message)
+    assertPhysicalQuantityEquals(expected.yPos, actual.yPos, delta, message)
+    assertPhysicalQuantityEquals(expected.zPos, actual.zPos, delta, message)
+    assertEquals(expected.params.keys, actual.params.keys)
+    expected.params.forEach {
+        assertPhysicalQuantityEquals(it.value, actual.params[it.key]!!, delta, message)
+    }
+}
+
+internal fun assertPhysicalQuantityEquals(expected: PhysicalQuantity, actual: PhysicalQuantity, delta: Double, message: String? = null) {
+    assertEquals(expected.getUnit(), actual.getUnit(), message)
+    assertDoubleEquals(expected.getValue(), actual.getValue(), delta, message)
+}
+
+internal fun assertDoubleEquals(expected: Double, actual: Double, delta: Double, message: String? = null) {
     assertTrue((expected - actual).abs() <= delta, message)
 }

@@ -1,5 +1,6 @@
 package cz.cuni.lf1.thunderstorm.datastructures;
 
+import cz.cuni.lf1.thunderstorm.datastructures.GrayScaleImage;
 import ij.process.FloatProcessor;
 
 public class GrayScaleImageImplIj implements GrayScaleImage {

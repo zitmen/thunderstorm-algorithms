@@ -21,10 +21,16 @@ group 'cz.cuni.lf1.thunderstorm'
 version '1.0-SNAPSHOT'
 
 sourceSets {
-    main.java.srcDirs += 'src/main/kotlin'
+    main {
+        java.srcDirs += 'src/main/kotlin'
+        kotlin.srcDirs += 'src/main/kotlin'
+    }
 
-    main.kotlin.srcDirs += 'src/main/kotlin'
-    test.kotlin.srcDirs += 'src/test/kotlin'
+    test {
+        java.srcDirs += 'src/test/kotlin'
+        kotlin.srcDirs += 'src/test/kotlin'
+        resources.srcDirs += "src/test/resources"
+    }
 }
 
 repositories {
@@ -39,6 +45,7 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: "$kotlin_version"
     testCompile group: 'org.jetbrains.kotlin', name: 'kotlin-test-junit', version: "$kotlin_version"
+
 }
 
 jacocoTestReport {

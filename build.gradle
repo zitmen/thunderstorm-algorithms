@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = '1.1.51'
+    ext.kotlin_version = '1.1.60'
 
     repositories {
         mavenCentral()
@@ -21,6 +21,8 @@ group 'cz.cuni.lf1.thunderstorm'
 version '1.0-SNAPSHOT'
 
 sourceSets {
+    main.java.srcDirs += 'src/main/kotlin'
+
     main.kotlin.srcDirs += 'src/main/kotlin'
     test.kotlin.srcDirs += 'src/test/kotlin'
 }
@@ -32,6 +34,7 @@ repositories {
 dependencies {
     compile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: "$kotlin_version"
     compile group: 'org.apache.commons', name: 'commons-math3', version: '3.6.1'
+    compile group: 'net.imagej', name: 'ij', version: '1.49s'
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: "$kotlin_version"

@@ -42,7 +42,7 @@ internal fun assertMolecule(expected: Molecule, actual: Molecule, delta: Double,
     assertPhysicalQuantityEquals(expected.zPos, actual.zPos, delta, message)
     assertEquals(expected.params.keys, actual.params.keys)
     expected.params.forEach {
-        assertPhysicalQuantityEquals(it.value, actual.params[it.key]!!, delta, message)
+        assertPhysicalQuantityEquals(it.value!!, actual.params[it.key]!!, delta, message)
     }
 }
 

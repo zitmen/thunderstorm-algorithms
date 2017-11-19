@@ -5,6 +5,7 @@ import cz.cuni.lf1.thunderstorm.datastructures.Molecule;
 
 public class SubImage {
 
+    public Molecule initialEstimate;
     public double[] xgrid;
     public double[] ygrid;
     public double[] values;
@@ -13,7 +14,8 @@ public class SubImage {
     public int size_y;
     public int size_x;
 
-    public SubImage(int sizeX, int sizeY, double[] xgrid, double[] ygrid, double[] values, double detectorX, double detectorY) {
+    public SubImage(Molecule initialEstimate, int sizeX, int sizeY, double[] xgrid, double[] ygrid, double[] values, double detectorX, double detectorY) {
+        this.initialEstimate = initialEstimate;
         this.size_x = sizeX;
         this.size_y = sizeY;
         this.xgrid = xgrid;
@@ -42,6 +44,14 @@ public class SubImage {
             values[i] = this.values[i] - values[i];
         }
         return values;
+    }
+
+    public double correctXPosition(double pos) {
+        return pos + (int) initialEstimate.getXPos().getValue() + 0.5;
+    }
+
+    public double correctYPosition(double pos) {
+        return pos + (int) initialEstimate.getYPos().getValue() + 0.5;
     }
 
     private static double max(double[] array) {
@@ -90,6 +100,6 @@ public class SubImage {
                 idx++;
             }
         }
-        return new SubImage(2*fittingRadius+1, 2*fittingRadius+1, xgrid, ygrid, values, initialEstimate.getXPos().getValue(), initialEstimate.getYPos().getValue());
+        return new SubImage(initialEstimate, 2*fittingRadius+1, 2*fittingRadius+1, xgrid, ygrid, values, initialEstimate.getXPos().getValue() - xPos, initialEstimate.getYPos().getValue() - yPos);
     }
 }

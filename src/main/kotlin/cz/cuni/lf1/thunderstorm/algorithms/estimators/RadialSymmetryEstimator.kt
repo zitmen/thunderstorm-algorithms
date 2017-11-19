@@ -41,7 +41,7 @@ public class RadialSymmetryEstimator(private val fittingRadius: Int) : Estimator
 
         val coordinates = lsRadialCenterFit(m, yInterceptB, weights)
 
-        return createMoleculeDetection(coordinates[0] + img.detectorX.floor() + 0.5, coordinates[1] + img.detectorY.floor() + 0.5)
+        return createMoleculeDetection(img.correctXPosition(coordinates[0]), img.correctYPosition(coordinates[1]))
     }
 
     /**
